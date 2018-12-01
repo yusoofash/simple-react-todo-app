@@ -1,0 +1,56 @@
+.todo-app{
+    background-color: #FAFAFA;
+    min-height: 100vh;
+    border: 1px solid rgba(0,0,0,0.1);
+    color: darkslategray;
+}
+.todo-app .list-input{
+    position: relative;
+    display: flex;
+}
+.todo-app .title{
+    text-align: center;
+    padding: 20px 10px;
+    font-size: calc(14px + 1vw);
+    background: white;
+    color: darkslategray;
+    box-shadow: 1px 1px 2px 0 rgba(0,0,0,0.3);
+}
+.todo-app input{
+    width: 100%;
+    padding: 20px 14px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+.todo-app .list-input > .fas{
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    padding-right: 14px;
+    align-items: center;
+}
+.todo-app ul{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.todo-app li{
+    padding: 20px 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    border-radius: 2px;
+    display: flex;
+    margin: 0 5px;
+    margin-bottom: 10px;
+    background: white;
+    justify-content: space-between;
+}
+.todo-app .list-icons .fas{
+    padding: 0 10px;
+}
+.todo-app .list-icons .fas:last-child{
+    padding: 0;
+}
