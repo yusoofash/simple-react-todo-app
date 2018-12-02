@@ -8,7 +8,9 @@ export default class Todo extends Component {
     constructor() {
         super();
         this.state = {
-            todos: [],
+            todos: [
+                { task: 'Hello World!' }
+            ],
             todo: new TodoItem(),
             isEdit: false
         };

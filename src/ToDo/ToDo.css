@@ -18,7 +18,7 @@
 }
 .todo-app input{
     width: 100%;
-    padding: 20px 14px;
+    padding: 20px 27px 20px 14px;
     margin: 10px 5px;
     border-radius: 5px;
     border: 1px solid rgba(0,0,0,0.1);
@@ -47,9 +47,13 @@
     margin-bottom: 10px;
     background: white;
     justify-content: space-between;
+    align-items: center;
+}
+.list-icons{
+    text-align: center;
 }
 .todo-app .list-icons .fas{
-    padding: 0 10px;
+    padding: 10px 10px;
 }
 .todo-app .list-icons .fas:last-child{
     padding: 0;
