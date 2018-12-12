@@ -9,69 +9,82 @@ export default class Todo extends Component {
         super();
         this.state = {
             todos: [
-                { task: 'Hello World!' }
+                new TodoItem('Hello world!'),
             ],
             todo: new TodoItem(),
             isEdit: false
         };
     }
 
-    addTodo = (todo) => {
+    addTodo = (task) => {
         const todos = this.state.todos.slice();
-        todos.unshift(todo);
+        todos.unshift(new TodoItem(task));
         this.setState({
             todos
         });
     }
 
-    editInput = (todo_item) => {
-        const todo = Object.assign(this.state.todo, todo_item);
-        let isEdit = true;
-        
-        this.setState(() => ({
-            todo,
-            isEdit
-        }));
-    }
-
-    editTodo = (index, item) => {
-        const todos = [...this.state.todos];
-        todos[index] = item;
-
-        let todo = new TodoItem();
-        let isEdit = false;
-
-        this.setState({
-            todos,
-            todo,
-            isEdit
-        });
-    }
 
     deleteTodo = (index) => {
         const todos = this.state.todos.slice();
         todos.splice(index, 1);
         this.setState({
-            todos: todos
+            todos
         });
     }
 
+    editTodo = (index, task) => {
+        const { todos } = this.state;
+        todos[index] = new TodoItem(task);
+        this.setState({
+            todos
+        });
+    }
+
+    todo_list_items = () => {
+        return this.state.todos.map((todo, index) => (
+            <List
+                key={index}
+                id={index}
+                deleteTodo={this.deleteTodo}
+                editTodo={this.editTodo}
+                item={todo}></List>
+        ));
+    }
+
     render() {
+
+        let list_items = this.state.todos.map((todo, index) => (
+            <List
+                key={index}
+                id={index}
+                deleteTodo={this.deleteTodo}
+                editTodo={this.editTodo}
+                item={todo}></List>
+        ));
+        let todo_list;
+
+        if (this.state.todos.length > 0) {
+
+            todo_list = (
+                <ul>
+                    {list_items}
+                </ul>
+            )
+        } else {
+            todo_list = (
+                <div></div>
+            )
+        }
+
         return (
             <div className="todo-app">
                 <div className="title">{this.props.title}</div>
-                <ListInput 
-                isEdit={this.state.isEdit}
-                todo={this.state.todo} 
-                addTodo={this.addTodo}
-                editTodo={this.editTodo}>
-                </ListInput>
+                <ListInput
+                    addTodo={this.addTodo}
+                ></ListInput>
 
-                <List
-                isEdit={this.state.isEdit}
-                deleteTodo={this.deleteTodo} 
-                editInput={this.editInput}
-                items={this.state.todos}></List>
+                {todo_list}
             </div>
         );
     }

@@ -1,49 +1,31 @@
 import React, { Component } from 'react';
-import TodoItem from './ToDo-model';
 
 export default class ListInput extends Component {
     state = {
-        todo: this.props.todo
-    }
-
-    componentDidUpdate(prevprops) {
-        if (prevprops.isEdit !== this.props.isEdit) {
-            const todo = Object.assign(this.state.todo, this.props.todo);
-            this.setState(() => ({
-                todo
-            }));
-        }
+        task: ''
     }
 
     changeHandler = (e) => {
-        const input = e.target.value;
-        const todo = Object.assign({}, this.state.todo);
-        todo.task = input;
+        const task = e.target.value;
+
         this.setState({
-            todo
+            task
         });
+
     }
 
-    onEnter = (e) => {
-        if (e.keyCode === 13) {
-            this.submit();
-        }
-    }
+    submit = (e = null) => {
 
-    submit = () => {
-        if (this.state.todo.task.length === 0) {
+        e.preventDefault();
+
+        if (this.state.task.length === 0) {
             return;
         }
 
-        if (this.props.todo.id !== null) {
-            this.props.editTodo(this.props.todo.id, this.state.todo);
-        } else {
-            this.props.addTodo(this.state.todo);
-        }
+        this.props.addTodo(this.state.task);
 
-        const todo = new TodoItem();
         this.setState(() => ({
-            todo
+            task: ''
         }));
     }
 
@@ -55,11 +37,14 @@ export default class ListInput extends Component {
             button_className += 'fa-plus text-secondary';
         }
         return (
-            <div className="list-input">
-                <input placeholder="Enter Task.." type="text" onChange={this.changeHandler} onKeyUp={this.onEnter}
-                    value={this.state.todo.task} />
-                <i className={button_className} onClick={this.submit}></i>
-            </div>
+            <form onSubmit={(e) => this.submit(e)}>
+                <div className="list-input">
+                    <input placeholder="Enter Task.." type="text" onChange={(e) => this.changeHandler(e)}
+                        value={this.state.task} />
+                    <i className={button_className} onClick={this.submit}></i>
+
+                </div>
+            </form>
         );
     }
 }

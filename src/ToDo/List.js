@@ -1,51 +1,57 @@
 import React, { Component } from 'react';
-import TodoItem from './ToDo-model';
+
 
 export default class List extends Component {
     state = {
-        current_id: null,
+        is_edit: false,
+        input: this.props.item.task
     }
 
-    editTodo(val, id) {
-        if (this.props.isEdit === false) {
-            const todo = new TodoItem(id, val.task);
-            this.props.editInput(todo);
+    editTodo() {
+        this.setState(() => ({
+            is_edit: !this.state.is_edit
+        }));
+    }
+
+    componentDidUpdate(prevProp) {
+        if (prevProp.item.task !== this.props.item.task) {
             this.setState({
-                current_id: id
+                input: this.props.item.task
             });
         }
+    }
+
+    inputChangeHandler(e) {
+        const input = e.target.value;
+        this.setState({
+            input
+        })
+        const {editTodo, id} = this.props;
+        editTodo(id, this.state.input);
     }
 
     deleteItem(id) {
-        if (this.props.isEdit === false) {
-            this.props.deleteTodo(id);
-        }
+        this.props.deleteTodo(id);
     }
 
     render() {
-        let list;
-        if (this.props.items.length > 0) {
-            const item = this.props.items.map((val, index) => {
-                let isactive;
-                if (this.props.isEdit) {
-                    isactive = this.state.current_id === index ? 'bg-secondary ' : '';
-                }
-                return (
-                    <li key={index} className={isactive}>
-                        {val.task}
-                        <div className="list-icons">
-                            <i className="fas text-info cursor-pointer fa-pencil-alt" onClick={() => this.editTodo(val, index)}></i>
-                            <i className="fas text-danger cursor-pointer fa-trash" onClick={() => this.deleteItem(index)}></i>
-                        </div>
-                    </li>
-                )
-            });
-            list = <ul>{item}</ul>
+        let task;
+        
+        if (this.state.is_edit) {
+            task = <input type="text" value={this.state.input} onChange={(e)=>this.inputChangeHandler(e)} />
+        } else {
+            task = <span>{this.props.item.task}</span>
         }
         return (
-            <div>
-                {list}
-            </div>
+            <li>
+                {task}
+                <div className="list-icons">
+                    <i className="fas text-info cursor-pointer fa-pencil-alt" onClick={() => this.editTodo()}></i>
+                    <i className="fas text-danger cursor-pointer fa-trash" 
+                    onClick={() => this.deleteItem(this.props.id)}></i>
+                </div>
+            </li>
         )
+
     }
 }

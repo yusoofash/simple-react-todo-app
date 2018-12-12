@@ -1,6 +1,6 @@
 export default class TodoItem {
-    constructor(id = null, task = '') {
+    constructor(task = '', completed=false) {
         this.task = task;
-        this.id = id;
+        this.completed = completed;
     }
 }
